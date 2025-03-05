@@ -1,0 +1,13 @@
+{
+    "name": "mir-c",
+    "version": "1.0.0",
+    "description": "这是一个快捷切换npm镜像源的轻量库，零依赖，支持自定义管理镜像源，默认提供npm、cnpm、淘宝、腾讯云的镜像源",
+    "bin": {
+        "npmir": "./bin/npmir.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "cjiaojiao",
+    "license": "MIT"
+}
