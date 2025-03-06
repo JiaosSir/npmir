@@ -1,13 +1,13 @@
 # 欢迎使用npmir！
-本项目若对您有帮助的话，劳烦您为我的项目( <https://github.com/JiaosSir/npmir#> )点颗亮闪闪的star🥺，您的支持我是我坚持的唯一动力！
-如有bug或有修改建议，欢迎到我的邮箱( <a1962749022@163.com> )或者github issue ( <https://github.com/JiaosSir/npmir/issues> ) 跟我一起讨论！
+本项目若对您有帮助的话，劳烦您动动小指为本项目( <https://github.com/JiaosSir/npmir#> )点颗亮闪闪的star🥺，您的支持我是我坚持的唯一动力！  
+如有bug或有修改建议，欢迎到我的邮箱( <a1962749022@163.com> )或者github issue ( <https://github.com/JiaosSir/npmir/issues> ) 跟我一起讨论！  
 
 本库默认提供如下镜像源列表
-__npm官方源__ https://registry.npmjs.org/,
-__cnpm镜像__ https://r.cnpmjs.org/,
-__淘宝镜像__ https://registry.npmmirror.com/,
-__腾讯云镜像__ https://mirrors.cloud.tencent.com/npm/,
-__华为云镜像__ https://mirrors.huaweicloud.com/repository/npm/
+- __npm官方源__ <https://registry.npmjs.org/>
+- __cnpm镜像__ <https://r.cnpmjs.org/>
+- __淘宝镜像__ <https://registry.npmmirror.com/>
+- __腾讯云镜像__ <https://mirrors.cloud.tencent.com/npm/>
+- __华为云镜像__ <https://mirrors.huaweicloud.com/repository/npm/>
 
 ## 命令大全
 ### 切换镜像地址
