@@ -9,6 +9,12 @@
 - __腾讯云镜像__ <https://mirrors.cloud.tencent.com/npm/>
 - __华为云镜像__ <https://mirrors.huaweicloud.com/repository/npm/>
 
+## 安装方式
+### 使用npm
+```sh
+npm install npmir -g
+```
+
 ## 命令大全
 ### 切换镜像地址
 ```sh
