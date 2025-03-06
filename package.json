@@ -1,13 +1,27 @@
 {
-    "name": "mir-c",
-    "version": "1.0.0",
-    "description": "这是一个快捷切换npm镜像源的轻量库，零依赖，支持自定义管理镜像源，默认提供npm、cnpm、淘宝、腾讯云的镜像源",
+    "name": "npmir",
+    "author": {
+        "name": "cjiaojiao",
+        "email": "a1962749022@163.com"
+    },
+    "license": "MIT",
+    "version": "1.1.0",
+    "description": "这是一个轻量无第三方依赖、操作易用、终端美观的npm镜像管理库，提供了友好的中文终端界面，可批量测试镜像地址的有效性，更多详细内容请参阅README文档",
     "bin": {
         "npmir": "./bin/npmir.js"
     },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "cjiaojiao",
-    "license": "MIT"
+    "bug": "https://github.com/JiaosSir/npmir/issues",
+    "repository": "https://github.com/JiaosSir/npmir",
+    "keywords": [
+        "npm mirror",
+        "mirror manage",
+        "mirror",
+        "npmir",
+        "manage",
+        "test mirror"
+    ],
+    "engines": {
+        "node": ">= 12.0.0",
+        "npm": ">= 3.0.0"
+    }
 }

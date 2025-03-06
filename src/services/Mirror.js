@@ -1,8 +1,8 @@
 const readline = require('readline')
-const { execSync } = require('child_process')
 const path = require('path')
 
 const Font = require(path.resolve(__dirname, '../utils/Font'))
+const Command = require(path.resolve(__dirname, '../utils/Command'))
 const Storage = require(path.resolve(__dirname, '../utils/Storage'))
 const storage = new Storage
 
@@ -18,44 +18,19 @@ module.exports = class Mirror {
         this.mirrorList = storage.getData()
         this.options = Object.keys(this.mirrorList)
     }
-    // 增加下标
+    // 增加索引
     increaseIndex(prompt) {
-        if(this.index < this.options.length - 1) {
-            this.index++
-        }
+        this.index < this.options.length - 1
+        ? this.index++
+        : this.index = 0
         this.renderSelect(prompt)
     }
-    // 减少下标
+    // 减少索引
     decreaseIndex(prompt) {
-        if(this.index > 0) {
-            this.index--
-        }
+        this.index > 0
+        ? this.index--
+        : this.index = this.options.length - 1
         this.renderSelect(prompt)
-    }
-    // 执行命令
-    commandExec(command) {
-        return execSync(command, { encoding: 'utf-8' }).trim()
-    }
-    // 命令参数解析
-    commandParamsParse(params) {
-        const options = {}
-        if (params.length > 0) {
-            const dashRegExp = /^-{1}(?<option>[a-zA-Z]+)$/ // 解析 -option
-            for (const param of params) {
-                if (dashRegExp.test(param)) {
-                    if (!options['-']) {
-                        options['-'] = []
-                    }
-                    options['-'].push(...param.match(dashRegExp).groups.option.split(''))
-                } else {
-                    if (!options['remain']) {
-                        options['remain'] = []
-                    }
-                    options['remain'].push(param) // 存储非option的参数
-                }
-            }
-        }
-        return options
     }
     // 获取当前index指向的镜像地址
     getMirrorByIndex() {
@@ -65,7 +40,7 @@ module.exports = class Mirror {
     setMirror() {
         process.stdout.write('\x1B[?25h')
         try {
-            this.commandExec(`npm config set registry ${ this.getMirrorByIndex() }`)
+            Command.execSetRegistry(this.getMirrorByIndex())
             console.log(`\n镜像已切换为：${ Font.setMain(this.getMirrorByIndex()) }`)
         } catch(err) {
             console.error(err)
@@ -73,7 +48,7 @@ module.exports = class Mirror {
     }
     // 查看当前使用的镜像源
     current() {
-        console.log(this.commandExec('npm get registry'))
+        return Command.execGetRegistry()
     }
     // 查看目前已保存的镜像列表
     ls() {
@@ -85,32 +60,32 @@ module.exports = class Mirror {
     }
     // 处理test命令
     test(params) {
-        // 有参数则检测参数，无参数则检测当前镜像源列表
+        // 有参数则检测参数，无参数则检测当前镜像源
         if (params.length > 0) {
-            const parse = this.commandParamsParse(params)
-            // 检测是否带有参数：-m
-            if(parse['-'] && parse['-'].includes('m')) {
-                for (const item of parse['remain']) {
-                    this.test([item])
+            const parse = Command.commandParamsParse(params)
+            if(parse['-'] && parse['-'].includes('c')) {
+                this.test([this.current()])
+            } else if(parse['--'] && parse['--'].includes('all')) {
+                for (const item in this.mirrorList) {
+                    console.log(item)
+                    this.test([this.mirrorList[item]])
                 }
             } else {
-                // 检测参数是否是URL
-                const param = params[0]
-                try {
-                    new URL(param)
-                    this.testMirror(param, 'url')
-                } catch {
-                    // 检测参数是否存在于 mirrorList
-                    param in this.mirrorList
-                    ? this.testMirror(param, 'mirrorList')
-                    : console.error(`参数无效: ${ param }`)
+                for(const url of parse['remain']) {
+                    // 检测参数是否是URL
+                    try {
+                        new URL(url)
+                        this.testMirror(url, 'url')
+                    } catch {
+                        // 检测参数是否存在于 mirrorList
+                        url in this.mirrorList
+                        ? this.testMirror(url, 'mirrorList')
+                        : console.error(`参数无效: ${ url }`)
+                    }
                 }
             }
         } else {
-            for (const item in this.mirrorList) {
-                console.log(item)
-                this.test([this.mirrorList[item]])
-            }
+            console.log('无效参数')
         }
     }
     // 检测镜像有效性
@@ -128,7 +103,7 @@ module.exports = class Mirror {
             failInfo = `${Font.setWarn('此镜像不可用→')} ${ newParam }`
         }
         try {
-            this.commandExec(`npm view npm --registry=${ newParam }`)
+            Command.execTestSpecifyRegistry(newParam)
             console.log(successInfo)
         } catch(err) {
             console.error(failInfo)
@@ -164,6 +139,10 @@ module.exports = class Mirror {
     }
     // 渲染终端选择
     renderSelect(prompt) {
+        if (this.options.length === 0) {
+            console.log('镜像源列表为空')
+            return false
+        }
         process.stdout.write('\x1B[?25l')  // 隐藏光标
         readline.cursorTo(process.stdout, 0, 0)
         readline.clearScreenDown(process.stdout)
@@ -172,13 +151,11 @@ module.exports = class Mirror {
             if(this.index === i) console.log(Font.setMain(`* ${v} ←`))
             else console.log(`* ${v}`)
         })
+        return true
     }
     // 检测 url
     checkUrl(url) {
-        // 第一步：快速格式过滤
         if (!/^[a-zA-Z]+:\/\//.test(url)) return false
-
-        // 第二步：严格解析
         try {
             const parsed = new URL(url)
             return ['http:', 'https:'].includes(parsed.protocol)

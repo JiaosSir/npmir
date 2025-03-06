@@ -6,8 +6,8 @@ module.exports = class Font {
     }
     static setPrompt(text, bold=false) {
         return bold 
-            ? `\x1b[1;38;2;240;210;210m${ text }\x1b[0m` 
-            : `\x1b[38;2;240;210;210m${ text }\x1b[0m`
+            ? `\x1b[1;38;2;255;210;210m${ text }\x1b[0m` 
+            : `\x1b[38;2;255;210;210m${ text }\x1b[0m`
     }
     static setWarn(text, bold=false) {
         return bold 
