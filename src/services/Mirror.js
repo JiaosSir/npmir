@@ -112,11 +112,11 @@ module.exports = class Mirror {
     // 添加镜像
     add(mirrorName, mirrorUrl) {
         if (mirrorName in this.mirrorList) {
-            console.error("\n不能添加重复的键")
+            console.error('\n不能添加重复的键')
             return false
         }
         if(!this.checkUrl(mirrorUrl)) {
-            console.error("\n镜像源地址格式错误")
+            console.error('\n镜像源地址格式错误')
             return false
         }
         storage.addData(mirrorName, mirrorUrl)

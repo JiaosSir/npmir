@@ -7,7 +7,7 @@ const helpFull = Font.setPrompt(`\
 Usage: npmir <command> [options]
 
 Commands:
-  switch                               切换镜像源
+  use                                  切换镜像源
   current                              查看当前镜像
   ls                                   显示已添加的镜像源
   test ([-c, --all]) (<已添加的镜像源名称/镜像地址>)   测试镜像有效性(-c 测试当前镜像源, --all 测试镜像源列表)
@@ -27,8 +27,8 @@ const args = process.argv.slice(2)
 
 const [command, ...params] = args
 switch (command) {
-    case 'switch':
-        require(path.resolve(__dirname, '../src/command/switch'))
+    case 'use':
+        require(path.resolve(__dirname, '../src/command/use'))
         break
     case 'current':
         require(path.resolve(__dirname, '../src/command/current'))

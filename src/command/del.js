@@ -4,7 +4,7 @@ const Font = require(path.resolve(__dirname, '../utils/Font'))
 const Mirror = require(path.resolve(__dirname, '../services/Mirror'))
 const mirror = new Mirror()
 
-const terminalPrompt = `请选择要${ Font.setWarn('删除') }的镜像源:`
+const terminalPrompt = `请选择要${Font.setWarn('删除')}的镜像源:`
 
 const isNotEmpty = mirror.renderSelect(terminalPrompt)
 
@@ -14,7 +14,7 @@ if (isNotEmpty) {
     process.stdin.setEncoding('utf8')
     process.stdin.on('data', key => {
         const keyStr = key.toString('utf8')
-        switch(keyStr) {
+        switch (keyStr) {
             case '\x03': // Ctrl+C
                 process.stdout.write('\x1B[?25h') // 显示光标
                 process.stdin.setRawMode(false)
@@ -32,6 +32,6 @@ if (isNotEmpty) {
                 process.exit()
             default:
                 break
-        }   
+        }
     })
 }

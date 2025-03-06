@@ -18,7 +18,7 @@ npm install npmir -g
 ## 命令大全
 ### 切换镜像地址
 ```sh
-npmir switch
+npmir use
 ```
 
 ### 测试镜像地址有效性
