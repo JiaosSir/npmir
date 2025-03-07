@@ -18,25 +18,20 @@ module.exports = class Command {
     }
     // 命令参数解析
     static commandParamsParse(params) {
-        const options = {}
+        const options = {
+            '-': [],
+            '--': [],
+            'remain': []
+        }
         if (params.length > 0) {
             const dashRegExp = /^-{1}(?<option>[a-zA-Z]+)$/ // 解析 -option
             const dashDoubleRegExp = /^-{2}(?<option>[a-zA-Z]+)$/ // 解析 --option
             for (const param of params) {
                 if (dashRegExp.test(param)) {
-                    if (!options['-']) {
-                        options['-'] = []
-                    }
                     options['-'].push(param.match(dashRegExp).groups.option)
-                } else if(dashDoubleRegExp.test(params)) {
-                    if (!options['--']) {
-                        options['--'] = []
-                    }
+                } else if(dashDoubleRegExp.test(param)) {
                     options['--'].push(param.match(dashDoubleRegExp).groups.option)
                 } else {
-                    if (!options['remain']) {
-                        options['remain'] = []
-                    }
                     options['remain'].push(param) // 存储非option的参数
                 }
             }

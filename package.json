@@ -5,7 +5,7 @@
         "email": "a1962749022@163.com"
     },
     "license": "MIT",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "这是一个轻量无第三方依赖、操作易用、终端美观的npm镜像管理库，提供了友好的中文终端界面，可批量测试镜像地址的有效性，更多详细内容请参阅README文档",
     "bin": {
         "npmir": "./bin/npmir.js"

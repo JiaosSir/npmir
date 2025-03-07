@@ -1,4 +1,5 @@
-# 欢迎使用npmir！
+# 欢迎使用npmir！—— 一个高效的npm镜像管理库
+![GitHub stars](https://img.shields.io/github/stars/JiaosSir/npmir.svg)![GitHub license](https://img.shields.io/github/license/JiaosSir/npmir.svg)
 本项目若对您有帮助的话，劳烦您动动小指为本项目( <https://github.com/JiaosSir/npmir#> )点颗亮闪闪的star🥺，您的支持我是我坚持的唯一动力！  
 如有bug或有修改建议，欢迎到我的邮箱( <a1962749022@163.com> )或者github issue ( <https://github.com/JiaosSir/npmir/issues> ) 跟我一起讨论！  
 

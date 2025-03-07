@@ -63,29 +63,56 @@ module.exports = class Mirror {
         // 有参数则检测参数，无参数则检测当前镜像源
         if (params.length > 0) {
             const parse = Command.commandParamsParse(params)
-            if(parse['-'] && parse['-'].includes('c')) {
+            const shortLine = parse['-']
+            const doubleLine = parse['--']
+            const remain = parse['remain']
+            const currentCommandIndex = shortLine.indexOf('c')
+            const allCommandIndex = doubleLine.indexOf('all')
+            // 检查顺序 -c > --all > 其它
+            if(shortLine && currentCommandIndex !== -1) {
                 this.test([this.current()])
-            } else if(parse['--'] && parse['--'].includes('all')) {
+                shortLine.splice(currentCommandIndex, 1)
+            } else if(doubleLine && allCommandIndex !== -1) {
                 for (const item in this.mirrorList) {
                     console.log(item)
                     this.test([this.mirrorList[item]])
                 }
-            } else {
-                for(const url of parse['remain']) {
+                doubleLine.splice(allCommandIndex, 1)
+            } else if(remain) {
+                remain.forEach((value, i) => {
                     // 检测参数是否是URL
-                    try {
-                        new URL(url)
-                        this.testMirror(url, 'url')
-                    } catch {
-                        // 检测参数是否存在于 mirrorList
-                        url in this.mirrorList
-                        ? this.testMirror(url, 'mirrorList')
-                        : console.error(`参数无效: ${ url }`)
+                    const isUrl = this.checkUrl(value)
+                    if (isUrl) {
+                        this.testMirror(value, 'url')
+                        remain.splice(i, 1)
                     }
+                    // 检测参数是否存在于 mirrorList 
+                    else if(value in this.mirrorList) {
+                        this.testMirror(value, 'mirrorList')
+                        remain.splice(i, 1)
+                    }
+                })
+            }
+            // 错误提示
+            if (shortLine.length === 0 && doubleLine.length === 0 && remain.length === 0) return
+            let optionCommands = ''
+            let paramCommands = ''
+            if (shortLine.length > 0 || doubleLine.length > 0) {
+                for (let i = 0; i < shortLine.length; i++) {
+                    shortLine[i] = `-${shortLine[i]}`
                 }
+                for (let i = 0; i < doubleLine.length; i++) {
+                    doubleLine[i] = `--${doubleLine[i]}`
+                }
+                optionCommands += `test: 选项无效 → ${ shortLine.concat(doubleLine)  }`
+                console.error(optionCommands)
+            }
+            if (remain.length > 0) {
+                paramCommands += `test: 参数无效 → ${ remain }`
+                console.error(paramCommands)
             }
         } else {
-            console.log('无效参数')
+            console.log('参数为空')
         }
     }
     // 检测镜像有效性
