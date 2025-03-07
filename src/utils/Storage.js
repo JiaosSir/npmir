@@ -3,7 +3,7 @@ const path = require('path')
 
 module.exports = class Storage {
     constructor() {
-        this.dataPath = path.resolve(__dirname, '../data/data.json')
+        this.dataPath = path.resolve(__dirname, '../src/data/data.json')
     }
     getData() {
         return JSON.parse(fs.readFileSync(this.dataPath, { encoding: 'utf-8' }))

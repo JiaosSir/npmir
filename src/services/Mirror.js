@@ -1,9 +1,8 @@
 const readline = require('readline')
-const path = require('path')
 
-const Font = require(path.resolve(__dirname, '../utils/Font'))
-const Command = require(path.resolve(__dirname, '../utils/Command'))
-const Storage = require(path.resolve(__dirname, '../utils/Storage'))
+const Font = require('../utils/Font')
+const Command = require('../utils/Command')
+const Storage = require('../utils/Storage')
 const storage = new Storage
 
 module.exports = class Mirror {
@@ -66,6 +65,7 @@ module.exports = class Mirror {
             const shortLine = parse['-']
             const doubleLine = parse['--']
             const remain = parse['remain']
+            const remainErr = []
             const currentCommandIndex = shortLine.indexOf('c')
             const allCommandIndex = doubleLine.indexOf('all')
             // 检查顺序 -c > --all > 其它
@@ -84,12 +84,11 @@ module.exports = class Mirror {
                     const isUrl = this.checkUrl(value)
                     if (isUrl) {
                         this.testMirror(value, 'url')
-                        remain.splice(i, 1)
-                    }
-                    // 检测参数是否存在于 mirrorList 
-                    else if(value in this.mirrorList) {
+                    } else if(value in this.mirrorList) {
+                        // 检测参数是否存在于 mirrorList 
                         this.testMirror(value, 'mirrorList')
-                        remain.splice(i, 1)
+                    } else {
+                        remainErr.push(remain.slice(i, ++i))
                     }
                 })
             }
@@ -107,8 +106,8 @@ module.exports = class Mirror {
                 optionCommands += `test: 选项无效 → ${ shortLine.concat(doubleLine)  }`
                 console.error(optionCommands)
             }
-            if (remain.length > 0) {
-                paramCommands += `test: 参数无效 → ${ remain }`
+            if (remainErr.length > 0) {
+                paramCommands += `test: 参数无效 → ${ remainErr }`
                 console.error(paramCommands)
             }
         } else {

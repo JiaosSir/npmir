@@ -5,10 +5,10 @@
         "email": "a1962749022@163.com"
     },
     "license": "MIT",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "这是一个轻量无第三方依赖、操作易用、终端美观的npm镜像管理库，提供了友好的中文终端界面，可批量测试镜像地址的有效性，更多详细内容请参阅README文档",
     "bin": {
-        "npmir": "./bin/npmir.js"
+        "npmir": "./dist/npmir.min.js"
     },
     "bug": "https://github.com/JiaosSir/npmir/issues",
     "repository": "https://github.com/JiaosSir/npmir",
@@ -23,5 +23,19 @@
     "engines": {
         "node": ">= 12.0.0",
         "npm": ">= 3.0.0"
+    },
+    "scripts": {
+        "build": "webpack --config webpack.config.js"
+    },
+    "files": [
+        "dist"
+    ],
+    "devDependencies": {
+        "@babel/core": "^7.26.9",
+        "@babel/preset-env": "^7.26.9",
+        "babel-loader": "^10.0.0",
+        "terser-webpack-plugin": "^5.3.14",
+        "webpack": "^5.98.0",
+        "webpack-cli": "^6.0.1"
     }
 }

@@ -1,8 +1,7 @@
-const path = require('path')
 const readline = require('readline')
 
-const Font = require(path.resolve(__dirname, '../utils/Font'))
-const Mirror = require(path.resolve(__dirname, '../services/Mirror'))
+const Font = require('../utils/Font')
+const Mirror = require('../services/Mirror')
 const mirror = new Mirror()
 
 const terminalPrompt = `请选择要${Font.setNote('修改')}的镜像源:`

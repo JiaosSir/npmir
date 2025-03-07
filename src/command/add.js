@@ -1,7 +1,6 @@
-const path = require('path')
 const readline = require('readline')
 
-const Mirror = require(path.resolve(__dirname, '../services/Mirror'))
+const Mirror = require('../services/Mirror')
 const mirror = new Mirror()
 
 module.exports = function addMirror(mirrorName, mirrorUrl) {

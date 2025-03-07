@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const path = require('path')
-const Font = require(path.resolve(__dirname, '../src/utils/Font'))
+const Font = require('../src/utils/Font')
 
 const helpFull = Font.setPrompt(`\
 Usage: npmir <command> [options]
@@ -17,7 +17,7 @@ Commands:
 
 Options:
   -h, --help     显示帮助信息
-  -v, --version  显示版本号\x1b[0m`)
+  -v, --version  显示版本号`)
 
 const helpSimple = Font.setPrompt(`\
 Options:
@@ -28,33 +28,33 @@ const args = process.argv.slice(2)
 const [command, ...params] = args
 switch (command) {
     case 'use':
-        require(path.resolve(__dirname, '../src/command/use'))
+        require('../src/command/use')
         break
     case 'current':
-        require(path.resolve(__dirname, '../src/command/current'))
+        require('../src/command/current')
         break
     case 'test':
-        require(path.resolve(__dirname, '../src/command/test'))(params)
+        require('../src/command/test')(params)
         break
     case 'add':
-        require(path.resolve(__dirname, '../src/command/add'))(
+        require('../src/command/add')(
             params[0],
             params[1]
         )
         break
     case 'del':
-        require(path.resolve(__dirname, '../src/command/del'))
+        require('../src/command/del')
         break
     case 'ls':
-        require(path.resolve(__dirname, '../src/command/ls'))
+        require('../src/command/ls')
         break
     case 'set':
-        require(path.resolve(__dirname, '../src/command/set'))
+        require('../src/command/set')
         break
     case '-v':
     case '--version':
-        const package = require(path.resolve(__dirname, '../package.json'))
-        console.log(Font.setPrompt(`v${package.version}`))
+        const packageFile = require('../package.json')
+        console.log(Font.setPrompt(`v${packageFile.version}`))
         break
     case '-h':
     case '--help':
